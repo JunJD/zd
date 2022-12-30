@@ -1,0 +1,15 @@
+export default [
+    {icon:'icon-huiyishiguanli_huaban', name:'会议室预约'},
+    {icon:'icon-benyouhuangye', name:'部门黄页'},
+    {icon:'icon-kaoqinguanli', name:'考勤查询'},
+    {icon:'icon-anpaihuiyi', name:'一周安排'},
+    {icon:'icon-dianhua', name:'服务电话'},
+    {icon:'icon-yikatong', name:'一卡通'},
+    {icon:'icon-huiyishi', name:'报告会预约'},
+    {icon:'icon-tushuguan', name:'书目查询'},
+    {icon:'icon-file-management-borrowed-record', name:'图书借阅记录'},
+    {icon:'icon-shuzizhengshu', name:'电子证书'},
+    {icon:'icon-wangzhiyuming', name:'网址收藏'},
+    {icon:'icon-fuwurizhi', name:'工作日志'},
+    {icon:'icon-gengduo', name:'更多'},
+]

@@ -22,13 +22,17 @@
         :button-text="submitBarText"
         @submit="onSubmit"
       />
+      <!-- 底部的固定导航栏 -->
+    <Footer-nav></Footer-nav>
     </div>
   </template>
   
   <script>
   import { Checkbox, CheckboxGroup, Card, SubmitBar, Toast } from 'vant';
+  import footerNav from '../../components/common/footerNav/footer_nav.vue'
   export default {
     components: {
+      footerNav,
       [Card.name]: Card,
       [Checkbox.name]: Checkbox,
       [SubmitBar.name]: SubmitBar,

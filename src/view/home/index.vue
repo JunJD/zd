@@ -8,6 +8,7 @@
             <!-- 搜索 -->
             <Search
               @focus="searchFocus"
+              readonly
               shape="round"
               :background="curColor"
               :clearable="false"
@@ -39,16 +40,15 @@
           <Grid :column-num="5" square :border="false">
             <GridItem v-for="(item, index) in baseServes" :key="index">
               <Badge>
-                <svg @click="tentative" class="icon" aria-hidden="true">
+                <svg @click="handleServe(index)" class="icon" aria-hidden="true">
                   <use :xlink:href="`#${item.icon}`"></use>
                 </svg>
                 <div>{{ item.name }}</div>
-                <template #content>
+                <template #content v-if="index!==baseServes.length-1">
                   <Icon name="award-o" class="badge-icon"/>
                 </template>
               </Badge>
             </GridItem >
-
           </Grid>
         </div>
         <div class="main-swipe" >
@@ -89,21 +89,19 @@
           </Tabs>
         </div>
       </main>
-      <!-- 底部的固定导航栏 -->
-      <footer-nav></footer-nav>
     </div>
   </template>
   
   <script>
   import { Search, Swipe, SwipeItem, Grid, GridItem, Badge, Icon, Sticky, Tabs, Tab } from 'vant'
   import { Dialog } from 'vant';
-  import footerNav from '../../components/common/footerNav/footer_nav.vue'
+  // import footerNav from '../../components/common/footerNav/footer_nav.vue'
   import { mapGetters } from 'vuex'
   import _baseServe from './_baseServe'
   import _newlist from './_newlist'
   export default {
     name: 'home',
-    components: { Search, Swipe, SwipeItem, Grid, GridItem, Badge, Icon, Sticky, Tabs, Tab, footerNav },
+    components: { Search, Swipe, SwipeItem, Grid, GridItem, Badge, Icon, Sticky, Tabs, Tab },
     data () {
       const baseServes = [..._baseServe]
       const newsContent = {..._newlist}
@@ -141,6 +139,14 @@
     methods: {
       onChange(index){
         this.curColor = this.colors[index]
+      },
+
+      handleServe(index){
+        if(index===this.baseServes.length-1){
+          this.$router.push('/serviceCentre')
+        }else{
+          this.tentative()
+        }
       },
 
       searchFocus(){

@@ -1,11 +1,12 @@
 <template>
     <div class="serviceCentre-home"  v-if="showThePage">
-      <header>
+      <header class="header">
         <Sticky>
           <div class="header-search" :style="{backgroundColor: '#ffffff'}">
             <!-- 搜索 -->
             <Search
               @focus="searchFocus"
+              readonly
               shape="round"
               background="#ffffff"
               :clearable="false"
@@ -17,25 +18,74 @@
             </svg>
           </div>
         </Sticky>
+
+        <div class="header-control">
+          <div class="control-text">我的服务</div>
+            <div v-for="(item, index) in controlIcons" class="control-icon" :key="index">
+              <svg v-if="!expansion" @click="handleControlClick(item.more)" class="icon" aria-hidden="true">
+                <use :xlink:href="`#${item.icon}`"></use>
+              </svg>
+            </div >
+          <Button class="control-button" round color="red" size="small" plain>管理</Button>
+        </div>
+        <div class="header-control-expansion" v-if="expansion">
+          <Grid :column-num="5" square :border="false">
+            <GridItem v-for="(item, index) in controlIcons" :key="index">
+              <!-- <Badge> -->
+                <svg @click="handleControlClick(item.more)" class="icon control-expansion-icon" aria-hidden="true">
+                  <use :xlink:href="`#${item.icon}`"></use>
+                </svg>
+                <p>{{ item.name }}</p>
+              <!-- </Badge> -->
+            </GridItem >
+          </Grid>
+        </div>
       </header>
-      <!-- 底部的固定导航栏 -->
-      <footer-nav></footer-nav>
+
+      <main class="main">
+        <div class="main-tabs">
+          <Tabs scrollspy sticky offset-top="1.5rem">
+            <Tab v-for="(item,index) in tabsList" :title="item" :key="index">
+              <div v-if="index!==0" class="main-tabs-title"><i>|</i> {{ item }}</div>
+              <SwitchCell v-if="index===0" class="collection-control" title="仅显收藏" v-model="checked"/>
+              <Grid :column-num="5" square :border="false">
+                <GridItem v-for="(item, index) in controlIcons" :key="index">
+                  <!-- <Badge> -->
+                    <svg @click="handleControlClick(item.more)" class="icon" aria-hidden="true">
+                      <use :xlink:href="`#${item.icon}`"></use>
+                    </svg>
+                    <p>{{ item.name }}</p>
+                  <!-- </Badge> -->
+                </GridItem >
+              </Grid>
+              <div v-if="index===tabsList.length-1" class="tabs-list-end"></div>
+            </Tab>
+          </Tabs>
+        </div>
+      </main>
     </div>
   </template>
   
   <script>
+  // 引入
+  // import draggable from "vuedraggable";
   import { mapGetters } from 'vuex'
-  import { Search, Sticky } from 'vant';
+  import { Search, Sticky, Button, Grid, GridItem, Tabs, Tab, SwitchCell } from 'vant';
   import { Dialog } from 'vant';
-  import footerNav from '../../components/common/footerNav/footer_nav.vue'
+  import _controlIcon from './_controlIcon'
   export default {
     components: {
-      footerNav,
-      Sticky, Search
+      // draggable,
+      Sticky, Search, Button, Grid, GridItem, Tabs, Tab, SwitchCell
     },
     data() {
       return {
+        checked:true,
         showThePage: false,
+        expansion: false,
+        tabsList:[
+          '最近使用', '离校服务', '教学服务', 'IT服务', '图书服务', '学工服务', '科研服务'
+        ]
       }
     },
     mounted(){
@@ -50,37 +100,111 @@
     computed: {
       ...mapGetters([
         'getLoading'
-      ])
+      ]),
+      controlIcons(){
+        return [..._controlIcon, {icon: this.expansion?"icon-shouqi":"icon-gengduo1", more: true}]
+      }
     },
     methods: {
       searchFocus(){
         Dialog({message: '我聚焦了'})
       },
+      handleControlClick(more){
+        if (more) {
+          this.expansion = !this.expansion
+        }else{
+          this.tentative()
+        }
+      },
       tentative(){
         Dialog({ message: '暂未开发' });
-      }
+      },
     }
   };
   </script>
   
   <style lang="less">
+  @import '../../style/mixin.less';
   .serviceCentre-home{
     display: flex;
     flex-direction: column;
-    .header-search{
-      padding: 0.1rem 0.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      .search-input{
-        width: 90%;
-        text-align: left;
-        border-radius: 0.96rem;
-        font-size: 0.3rem;
-        color: rgb(255, 254, 254);
+    .header{
+      width: 100%;
+      color: @white;
+      .header-search{
+        padding: 0.1rem 0.1rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        .search-input{
+          width: 90%;
+          text-align: left;
+          border-radius: 0.96rem;
+          font-size: 0.3rem;
+          color: rgb(255, 254, 254);
+        }
+        .search-right-icon{
+          font-size: .7rem;
+        }
       }
-      .search-right-icon{
-        font-size: .7rem;
+      .header-control{
+        display: flex;
+        align-items: center;
+        padding: .1rem .3rem .3rem;
+        font-size: .4rem;
+        color: #333;
+        background-color: #ffffff;
+        .control-text{
+          flex: 4;
+        }
+        .control-icon{
+          flex: 1;
+        }
+        .control-button{
+          flex: 1.2;
+        }
+      }
+      .header-control-expansion{
+        color: #333;
+        background-color: #ffffff;
+        p{
+          font-size: .3rem;
+        }
+        .control-expansion-icon{
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .main{
+      margin: .3rem 0;
+      background-color: #ffffff;
+      width: 100%;
+      .main-tabs{
+        border-radius: 10px;
+        p{
+          font-size: .3rem;
+        }
+        &-title{
+          i{
+            font-weight: 900;
+            color: red;
+          }
+          margin: .2rem;
+          font-weight: 500;
+          font-size: .39rem;
+        }
+        .collection-control{
+          width: 95%;
+          border-radius: 10px;
+          background-color: #f1f1f1a0;
+          margin: .2rem auto;
+          padding: .1rem ;
+        }
+        .tabs-list-end{
+          height: 13.3rem;
+        }
       }
     }
   }
@@ -95,5 +219,8 @@
     .van-field__left-icon{
       color: #333333;
     }
+  }
+  /deep/ .van-button {
+    height: .6rem;
   }
   </style>

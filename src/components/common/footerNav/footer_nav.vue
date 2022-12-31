@@ -5,7 +5,7 @@
       <i class="icon i-zd-home"></i>
       <span class="text">首页</span>
     </router-link>
-    <router-link to="/user">
+    <router-link to="/serviceCentre">
       <i class="icon i-zd-service"></i>
       <span class="text">服务中心</span>
     </router-link>

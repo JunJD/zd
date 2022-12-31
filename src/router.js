@@ -16,10 +16,10 @@ const routes = [
     }
   },
   {
-    name: 'cart',
-    component: () => import('./view/cart'),
+    name: 'serviceCentre',
+    component: () => import('./view/serviceCentre'),
     meta: {
-      title: '购物车'
+      title: '服务中心'
     }
   },
   {

@@ -6,9 +6,8 @@
           <div class="header-search" :style="{backgroundColor: curColor}">
             <i @click="tentative" class="icon i-zd-badge"></i>
             <!-- 搜索 -->
-            <!-- <input type="text" class="search-input" > -->
             <Search
-              v-model="value"
+              @focus="searchFocus"
               shape="round"
               :background="curColor"
               :clearable="false"
@@ -66,7 +65,7 @@
         </div>
 
         <div class="main-news">
-          <Tabs v-model="active" swipeable :line-width="0">
+          <Tabs swipeable :line-width="0">
             <Tab v-for="(item,index) in [...newsTitle,{name:null}]" :key="index" :disabled="!item.name">
               <template #title>
                   <div v-if="!item.name" class="titleicon" @click="tentative">
@@ -109,7 +108,6 @@
       const baseServes = [..._baseServe]
       const newsContent = {..._newlist}
       return {
-        value:'',
         showThePage: false, // 是否展示当前页面
         shortcuts:[{icon:'i-zd-saoyisao', name:'扫一扫'},{icon:'i-zd-jiaoyiliushui', name:'流水账单'},{icon:'i-zd-yiqiatong', name:'一卡通'},{icon:'i-zd-zixun', name:'咨询中心'}],
         baseServes,
@@ -143,6 +141,10 @@
     methods: {
       onChange(index){
         this.curColor = this.colors[index]
+      },
+
+      searchFocus(){
+        Dialog({message: '我聚焦了'})
       },
 
       tentative(){
@@ -246,7 +248,7 @@
         .goodNew{
           overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap; //文本不换行，这样超出一行的部分被截取，显示...
+          white-space: nowrap;
           font-size: .3rem;
         }
       }

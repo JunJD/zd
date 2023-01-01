@@ -1,5 +1,5 @@
 <template>
-    <div class="serviceCentre-home"  v-if="showThePage">
+    <div class="service-center-page"  v-if="showThePage">
       <header class="header">
         <Sticky>
           <div class="header-search" :style="{backgroundColor: '#ffffff'}">
@@ -49,12 +49,12 @@
               <div v-if="index!==0" class="main-tabs-title"><i>|</i> {{ item }}</div>
               <SwitchCell v-if="index===0" class="collection-control" title="仅显收藏" v-model="checked"/>
               <Grid :column-num="5" square :border="false">
-                <GridItem v-for="(item, index) in controlIcons" :key="index">
+                <GridItem v-for="(item, index) in finalIconlist(item)" :key="index">
                   <!-- <Badge> -->
-                    <svg @click="handleControlClick(item.more)" class="icon" aria-hidden="true">
+                    <svg @click="handleControlClick(item.more)" class="icon tabs-icon" aria-hidden="true">
                       <use :xlink:href="`#${item.icon}`"></use>
                     </svg>
-                    <p>{{ item.name }}</p>
+                    <div class="tabs-name">{{ item.name }}</div>
                   <!-- </Badge> -->
                 </GridItem >
               </Grid>
@@ -69,6 +69,7 @@
   <script>
   // 引入
   // import draggable from "vuedraggable";
+  import _allControlIcon from './_allControlIcon'
   import { mapGetters } from 'vuex'
   import { Search, Sticky, Button, Grid, GridItem, Tabs, Tab, SwitchCell } from 'vant';
   import { Dialog } from 'vant';
@@ -79,8 +80,10 @@
       Sticky, Search, Button, Grid, GridItem, Tabs, Tab, SwitchCell
     },
     data() {
+      const allControlIconlist = _allControlIcon
       return {
-        checked:true,
+        allControlIconlist,
+        checked:false,
         showThePage: false,
         expansion: false,
         tabsList:[
@@ -106,6 +109,12 @@
       }
     },
     methods: {
+      finalIconlist(item){
+        // this.checked
+        return this.allControlIconlist
+          // .filter
+          .find(itm=>itm.name===item).list
+      },
       searchFocus(){
         Dialog({message: '我聚焦了'})
       },
@@ -125,7 +134,7 @@
   
   <style lang="less">
   @import '../../style/mixin.less';
-  .serviceCentre-home{
+  .service-center-page{
     display: flex;
     flex-direction: column;
     .header{
@@ -195,6 +204,16 @@
           font-weight: 500;
           font-size: .39rem;
         }
+        .tabs-icon{
+          font-size: 1rem;
+        };
+        .tabs-name{
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          font-size: .3rem;
+        }
         .collection-control{
           width: 95%;
           border-radius: 10px;
@@ -203,7 +222,7 @@
           padding: .1rem ;
         }
         .tabs-list-end{
-          height: 13.3rem;
+          height: 74vh;
         }
       }
     }

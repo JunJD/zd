@@ -23,6 +23,13 @@ const routes = [
     }
   },
   {
+    name: 'calendarCenter',
+    component: () => import('./view/calendarCenter'),
+    meta: {
+      title: '日程中心'
+    }
+  },
+  {
     name: 'home',
     component: () => import('./view/home'),
     meta: {

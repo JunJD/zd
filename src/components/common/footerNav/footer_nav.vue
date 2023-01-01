@@ -9,7 +9,7 @@
       <i class="icon i-zd-service"></i>
       <span class="text">服务中心</span>
     </router-link>
-    <router-link to="/cart">
+    <router-link to="/calendarCenter">
       <i class="icon i-zd-schedule"></i>
       <span class="text">日程中心</span>
     </router-link>

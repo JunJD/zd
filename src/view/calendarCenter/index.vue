@@ -1,66 +1,89 @@
 <template>
     <div class="calendar-center-page">
-        <header class="header">
-            <div class="header-control">
-                <div class="header-date">
-                    {{ `${date.year}年${date.month}月${date.day}月` }}
+        <Sticky>
+            <header class="header">
+                <div class="header-control">
+                    <div class="header-date">
+                        {{ `${date.year}年${date.month}月${date.day}月` }}
+                    </div>
+                    <div>
+                        <svg @click="checkToDay" class="icon search-right-icon" aria-hidden="true">
+                            <use xlink:href="#icon-jinrishouru"></use>
+                        </svg>
+                        <svg @click="tentative" class="icon search-right-icon" aria-hidden="true">
+                            <use xlink:href="#icon-sousuo"></use>
+                        </svg>
+                        <svg @click="tentative" class="icon search-right-icon" aria-hidden="true">
+                            <use xlink:href="#icon-gengduo2"></use>
+                        </svg>
+                    </div>
                 </div>
-                <div>
-                    <svg @click="checkToDay" class="icon search-right-icon" aria-hidden="true">
-                        <use xlink:href="#icon-jinrishouru"></use>
-                    </svg>
-                    <svg @click="tentative" class="icon search-right-icon" aria-hidden="true">
-                        <use xlink:href="#icon-sousuo"></use>
-                    </svg>
-                    <svg @click="tentative" class="icon search-right-icon" aria-hidden="true">
-                        <use xlink:href="#icon-gengduo2"></use>
-                    </svg>
-                </div>
-            </div>
-            <div class="calendar-data-content">
-                <div>
-                    <li v-for="(item, index) in weekDay" class="everyday" :key="`${index}_${item.value}`">
-                        {{item.label}}
-                    </li>
-                </div>
-                <div>
-                    <Swipe class="my-swipe" :show-indicators="false" @change="onSwipeChange">
-                        <SwipeItem v-for="index in 3" :key="index">
-                            <div v-for="(itm,idx) in showDate" class="everyday" :key="`${idx}_${itm.day}`">
-                                <div :class="['everyday-text', {'check': itm.check }]" @click="handleCheckDate(itm)">
-                                    <p>
-                                        {{ itm.day }}
-                                        <span v-if="itm.data">.</span>
-                                    </p>
-                                    
+                <div class="calendar-data-content">
+                    <div>
+                        <li v-for="(item, index) in weekDay" class="everyday" :key="`${index}_${item.value}`">
+                            {{item.label}}
+                        </li>
+                    </div>
+                    <div>
+                        <Swipe class="my-swipe" :show-indicators="false" @change="onSwipeChange">
+                            <SwipeItem v-for="index in 3" :key="index">
+                                <div v-for="(itm,idx) in showDate" class="everyday" :key="`${idx}_${itm.day}`">
+                                    <div :class="['everyday-text', {'check': itm.check }]" @click="handleCheckDate(itm)">
+                                        <p>
+                                            {{ itm.day }}
+                                            <span v-if="itm.data">.</span>
+                                        </p>
+                                        
+                                    </div>
                                 </div>
-                            </div>
-                        </SwipeItem>
-                    </Swipe>
+                            </SwipeItem>
+                        </Swipe>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+        </Sticky>
         <main class="main">
+            <div class="main-blocks">
+                <div class="calendar-blocks">
+                    <ul class="hours">
+                        <li v-for="index in 24" class="hour-row-identifier" :key="index">
+                            <div>
+                                {{ index-1 }}:00
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="kalendar-event" :style="{top: `${0}rem`,height: `${5*0.2}rem`}">
+                        <span>12</span>
+                    </div>
+                    <div class="kalendar-event" :style="{top: `${2.4}rem`,height: `${5*0.2}rem`}">
+                        <span>23</span>
+                    </div>
+                    <ul v-for="itm in 6" :class="['kalendar-day','building-blocks']" :key="itm">
+                        
+                        <li v-for="index in 24*6" class="kalendar-cell" :key="index"></li>
+                    </ul>
+                </div>
 
+            </div>
         </main>
     </div>
 </template>
 
 <script>
-import { Swipe, SwipeItem } from 'vant'
+import { Swipe, SwipeItem, Sticky } from 'vant'
 import { Dialog } from 'vant';
 import { initbasic, weekDay} from './_weekday'
 let oneDayTime = 24*60*60*1000;//一天的时间
 export default {
     name: "calendarCenter",
-    components:{ Swipe, SwipeItem },
+    components:{ Swipe, SwipeItem, Sticky },
     data(){
         return {
             showDate: [],
             weekDay,
             basic: initbasic,
             current: 0,
-            date: initbasic
+            date: initbasic,
         }
     },
     computed:{
@@ -139,7 +162,9 @@ export default {
 <style lang="less">
 .calendar-center-page{
     background-color: #ffffff;
+    margin-bottom: 1.34rem;
     .header{
+        background-color: #ffffff;
         &-control{
             width: 100%;
             border-bottom: 1px solid #b6b5b536;
@@ -203,6 +228,56 @@ export default {
         }
     }
     }
+    .main{
+        padding-top: 1rem;
+        position: relative;
+        .main-blocks{
+            display: flex;
+            position: relative;
+            margin: 0 auto;
+            .calendar-blocks{
+                display: flex;
+                position: relative;
+                .hours{
+                    display: flex;
+                    flex-direction: column;
+                    color: #b8bbca;
+                    font-weight: 500;
+                    font-size: .85rem;
+                    width: 1.5rem;
+                    height: 100%;
+                    .hour-row-identifier{
+                        font-size: .3rem;
+                        height: 1.3rem;
+                        padding-left: .2rem;
+                        margin-top: -.1rem;
+                    }
+                }
+                .kalendar-day{
+                    position: relative;
+                    flex: 1;
+                    width: 1.4rem;
+                    margin-bottom: 0;
+                    display: flex;
+                    flex-direction: column;
+                    .kalendar-cell{
+                        height: .2rem;
+                    }
+                }
+                .building-blocks li:nth-child(6n+1){
+                    border-top: solid 1px #e0e0e0;
+                }
+                .kalendar-event{
+                    left: 1.2rem;
+                    width: 100%;
+                    position: absolute;
+                    display: flex;
+                    background-color: #b6b5b536;
+                }
+            }
+        }
+    }
+    
     
 }
 </style>

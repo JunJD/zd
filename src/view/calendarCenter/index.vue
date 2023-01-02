@@ -52,11 +52,10 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="kalendar-event" :style="{top: `${0}rem`,height: `${5*0.2}rem`}">
-                        <span>12</span>
-                    </div>
-                    <div class="kalendar-event" :style="{top: `${2.4}rem`,height: `${5*0.2}rem`}">
-                        <span>23</span>
+                    <!-- 12:00-16:00 -->
+                    <div class="kalendar-event" v-for="evt in eventsDay" :key="evt.data.title" :style="{top: `${evt.start*0.2*6}rem`,height: `${evt.distance*6*0.2}rem`,left: `${1.5+8.2*evt.left}rem`, width:` ${8.2*evt.width}rem`}">
+                        <span>{{evt.data.title}}</span>
+                        <i>{{evt.data.address}}</i>
                     </div>
                     <ul v-for="itm in 6" :class="['kalendar-day','building-blocks']" :key="itm">
                         
@@ -73,7 +72,8 @@
 import { Swipe, SwipeItem, Sticky } from 'vant'
 import { Dialog } from 'vant';
 import { initbasic, weekDay} from './_weekday'
-let oneDayTime = 24*60*60*1000;//一天的时间
+import events from './events'
+const ONEDAYTIME = 24*60*60*1000;//一天的时间
 export default {
     name: "calendarCenter",
     components:{ Swipe, SwipeItem, Sticky },
@@ -84,9 +84,13 @@ export default {
             basic: initbasic,
             current: 0,
             date: initbasic,
+            events
         }
     },
     computed:{
+        eventsDay(){
+            return events[this.date.year][this.date.month][this.date.day]
+        }
     },
     mounted(){
         this.showDate = this.renderWeek(this.basic.year, this.basic.month, this.basic.day)
@@ -109,10 +113,10 @@ export default {
             let time = 0;
             if(index-this.current===1 || index-this.current===-2 ){
                 // 右移 
-                time = nowTime + 7*oneDayTime;
+                time = nowTime + 7*ONEDAYTIME;
             }else {
                 // 左移
-                time = nowTime - 7*oneDayTime;
+                time = nowTime - 7*ONEDAYTIME;
             }
             this.basic = this.timeToDate(time)
             this.showDate = this.renderWeek(this.basic.year, this.basic.month, this.basic.day)
@@ -128,12 +132,12 @@ export default {
                 let check = false
                 let time = 0;
                 if(i < week){
-                    time = nowTime - (week-i)*oneDayTime;
+                    time = nowTime - (week-i)*ONEDAYTIME;
                 }else{
                     if(i == week){
                         time = nowTime
                     }else{
-                        time = nowTime + (i-week)*oneDayTime;
+                        time = nowTime + (i-week)*ONEDAYTIME;
                     }
                 }
                 let data = new Date(time);
@@ -268,11 +272,18 @@ export default {
                     border-top: solid 1px #e0e0e0;
                 }
                 .kalendar-event{
-                    left: 1.2rem;
-                    width: 100%;
+                    z-index: 9;
+                    background-color: #ffffff;
+                    font-size: .38rem;
                     position: absolute;
-                    display: flex;
-                    background-color: #b6b5b536;
+                    border-radius: .2rem;
+                    border: solid 2px #e0e0e0;
+                    border-left: rgb(255, 157, 0) .2rem solid;
+                    color: #333;
+                    i{
+                        font-size: .2rem;
+                        color: #a9a9a9;
+                    }
                 }
             }
         }

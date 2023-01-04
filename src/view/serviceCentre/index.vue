@@ -63,20 +63,22 @@
           </Tabs>
         </div>
       </main>
+
+      <!-- 底部的固定导航栏 -->
+      <footer-nav></footer-nav>
     </div>
   </template>
   
   <script>
-  // 引入
-  // import draggable from "vuedraggable";
   import _allControlIcon from './_allControlIcon'
-  import { mapGetters } from 'vuex'
+  
+  import footerNav from './../../components/common/footerNav/footer_nav.vue'
   import { Search, Sticky, Button, Grid, GridItem, Tabs, Tab, SwitchCell } from 'vant';
   import { Dialog } from 'vant';
   import _controlIcon from './_controlIcon'
   export default {
     components: {
-      // draggable,
+      footerNav,
       Sticky, Search, Button, Grid, GridItem, Tabs, Tab, SwitchCell
     },
     data() {
@@ -101,9 +103,6 @@
       }, time)
     },
     computed: {
-      ...mapGetters([
-        'getLoading'
-      ]),
       controlIcons(){
         return [..._controlIcon, {icon: this.expansion?"icon-shouqi":"icon-gengduo1", more: true}]
       }

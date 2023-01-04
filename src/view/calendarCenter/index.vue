@@ -1,5 +1,5 @@
 <template>
-    <div class="calendar-center-page">
+    <div class="calendar-center-page" v-if="showThePage">
         <Sticky>
             <header class="header">
                 <div class="header-control">
@@ -65,20 +65,29 @@
 
             </div>
         </main>
+
+        <div class="floating-ball" @click="toAdd">
+            <Icon name="plus" />
+        </div>
+
+        <!-- 底部的固定导航栏 -->
+        <footer-nav></footer-nav>
     </div>
 </template>
 
 <script>
-import { Swipe, SwipeItem, Sticky } from 'vant'
+import footerNav from './../../components/common/footerNav/footer_nav.vue'
+import { Swipe, SwipeItem, Sticky, Icon } from 'vant'
 import { Dialog } from 'vant';
 import { initbasic, weekDay} from './_weekday'
 import events from './events'
 const ONEDAYTIME = 24*60*60*1000;//一天的时间
 export default {
     name: "calendarCenter",
-    components:{ Swipe, SwipeItem, Sticky },
+    components:{ footerNav, Swipe, SwipeItem, Sticky, Icon },
     data(){
         return {
+            showThePage: false,
             showDate: [],
             weekDay,
             basic: initbasic,
@@ -94,8 +103,18 @@ export default {
     },
     mounted(){
         this.showDate = this.renderWeek(this.basic.year, this.basic.month, this.basic.day)
+        this.$store.dispatch('setLoading', true)
+        // 模拟实际请求需要的时间
+        let time = Math.floor(Math.random() * 2000)
+        setTimeout(() => {
+            this.$store.dispatch('setLoading', false) // loading 隐藏
+            this.showThePage = true
+        }, time)
     },
     methods:{
+        toAdd(){
+            this.$router.push('/calendarCenter/add')
+        },
         handleCheckDate(date){
             this.date = date
             this.showDate = this.renderWeek(this.date.year, this.date.month, this.date.day)
@@ -290,5 +309,23 @@ export default {
     }
     
     
+}
+
+.floating-ball{
+    text-align: center;
+    line-height: 1.2rem;
+    color: #ffffff;
+    position: fixed;
+    z-index: 9999;
+    right: 0.3rem;
+    bottom: 1.84rem;
+    border-radius: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: red;
+    i{
+        font-size: .6rem;
+        font-weight: 700;
+    }
 }
 </style>

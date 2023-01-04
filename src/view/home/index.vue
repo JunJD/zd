@@ -89,19 +89,21 @@
           </Tabs>
         </div>
       </main>
+
+      <!-- 底部的固定导航栏 -->
+      <footer-nav></footer-nav>
     </div>
   </template>
   
   <script>
   import { Search, Swipe, SwipeItem, Grid, GridItem, Badge, Icon, Sticky, Tabs, Tab } from 'vant'
   import { Dialog } from 'vant';
-  // import footerNav from '../../components/common/footerNav/footer_nav.vue'
-  import { mapGetters } from 'vuex'
+  import footerNav from '../../components/common/footerNav/footer_nav.vue'
   import _baseServe from './_baseServe'
   import _newlist from './_newlist'
   export default {
     name: 'home',
-    components: { Search, Swipe, SwipeItem, Grid, GridItem, Badge, Icon, Sticky, Tabs, Tab },
+    components: { footerNav, Search, Swipe, SwipeItem, Grid, GridItem, Badge, Icon, Sticky, Tabs, Tab },
     data () {
       const baseServes = [..._baseServe]
       const newsContent = {..._newlist}
@@ -121,14 +123,9 @@
         curColor: '#a132af'
       }
     },
-    computed: {
-        ...mapGetters([
-        'getLoading'
-        ])
-    },
+    computed: {},
     mounted () {
       this.$store.dispatch('setLoading', true)
-
       // 模拟实际请求需要的时间
       let time = Math.floor(Math.random() * 2000)
       setTimeout(() => {

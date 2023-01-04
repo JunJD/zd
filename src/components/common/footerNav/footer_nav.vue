@@ -13,11 +13,13 @@
       <i class="icon i-zd-schedule"></i>
       <span class="text">日程中心</span>
     </router-link>
-    <router-link to="/cart">
-      <i class="icon i-zd-message"></i>
-      <span class="text">消息</span>
-    </router-link>
-    <router-link to="/cart">
+    <Badge :content="unread">
+      <router-link to="/messageCenter">
+          <i class="icon i-zd-message"></i>
+          <span class="text">消息</span>
+      </router-link>
+    </Badge>
+    <router-link to="/messageCenter">
       <i class="icon i-zd-my"></i>
       <span class="text">我的</span>
     </router-link>
@@ -25,10 +27,20 @@
 </template>
 
 <script>
+import { Badge } from 'vant';
+
 export default {
   name: 'footerNav',
+  components: { Badge },
   data () {
-    return {}
+    return { }
+  },
+  computed:{
+    unread() {
+      // console.log(this)
+      return this.$store.getters.getUnread
+      // return 1
+    }
   }
 }
 </script>

@@ -30,6 +30,17 @@ const routes = [
     }
   },
   {
+    name: 'messageCenter',
+    component: () => import('./view/messageCenter'),
+    meta: {
+      title: '消息'
+    }
+  },
+  {
+    name: 'calendarCenter/add',
+    component: () => import('./view/calendarCenter/components/add.vue')
+  },
+  {
     name: 'home',
     component: () => import('./view/home'),
     meta: {

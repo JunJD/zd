@@ -6,7 +6,14 @@ Vue.use(Router);
 const routes = [
   {
     path: '*',
-    redirect: '/home'
+    redirect: '/login'
+  },
+  {
+    name: 'login',
+    component: () => import('./view/login'),
+    meta: {
+      title: ''
+    }
   },
   {
     name: 'user',

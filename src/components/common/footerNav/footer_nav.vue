@@ -13,13 +13,13 @@
       <i class="icon i-zd-schedule"></i>
       <span class="text">日程中心</span>
     </router-link>
-    <Badge :content="unread">
       <router-link to="/messageCenter">
+        <Badge :content="unread">
           <i class="icon i-zd-message"></i>
-          <span class="text">消息</span>
+        </Badge>
+        <span class="text">消息</span>
       </router-link>
-    </Badge>
-    <router-link to="/messageCenter">
+    <router-link to="/user">
       <i class="icon i-zd-my"></i>
       <span class="text">我的</span>
     </router-link>
@@ -44,3 +44,11 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+
+/deep/ .van-badge--fixed{
+  top: .23rem;
+  right: -.1rem;
+}
+</style>

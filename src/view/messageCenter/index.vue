@@ -14,7 +14,7 @@
                     @focus="searchFocus"
                     readonly
                     shape="round"
-                    background="rgb(219, 212, 212)"
+                    background="rgb(248, 248, 248)"
                     :clearable="false"
                     class="search-input" 
                     placeholder="全部服务"
@@ -126,10 +126,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+body{
+    background-color: #fff;
+}
 .message-page{
     background-color: #fff;
     .header{
-        background-color: rgb(219, 212, 212);
+        background-color: rgb(248, 248, 248);
         &-title{
             display: flex;
             justify-content: space-between;
@@ -146,6 +149,9 @@ export default {
         }
         .search-input{
             font-size: .5rem;
+            /deep/ .van-search__content{
+                background-color: #fff;
+            }
         }
     }
     .main{
@@ -160,7 +166,7 @@ export default {
             &-content{
                 width: 6rem;
                 &-origin{
-                    color: rgb(56, 52, 52);
+                    color: rgb(244, 238, 238);
                 }
                 &-title{
                     padding: .2rem 0;

@@ -4,4 +4,5 @@ export default {
   // 得到未读数据
   getUnread: (state) => state.unread,
   getMessageList: (state) => state.messageList,
+  getToken: (state) => state.token,
 }

@@ -3,5 +3,7 @@ export default {
   // 是否在加载中
   isLoading: false,
   unread: 0,
-  messageList:[]
+  messageList:[],
+  // token
+  token:0
 }

@@ -1,7 +1,8 @@
 import {
   SET_LOADING,
   SET_UNREAD,
-  SET_MESSAGELIST
+  SET_MESSAGELIST,
+  SET_TOKEN,
 } from './mutation_types.js'
 
 export default {
@@ -14,5 +15,8 @@ export default {
   },
   [SET_MESSAGELIST] (state, loadstate) {
     state.messageList = loadstate
-  }
+  },
+  [SET_TOKEN] (state, loadstate) {
+    state.token = loadstate
+  },
 }

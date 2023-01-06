@@ -12,5 +12,8 @@ export default {
   },
   setMessageList ({commit}, loadstate) {
     commit('SET_MESSAGELIST', loadstate)
+  },
+  setToken ({commit}, loadstate) {
+    commit('SET_TOKEN', loadstate)
   }
 }

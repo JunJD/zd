@@ -27,6 +27,7 @@
 
 <script>
 import { Field, Form, Button, Checkbox } from 'vant';
+// import myAxios from '../../utils/myRequest';
 export default {
     name: 'login',
     data(){
@@ -39,7 +40,12 @@ export default {
     components: { Field, Form, Button, Checkbox },
     methods:{
         onSubmit(VALUES) {
-            alert(VALUES.username)
+            if(VALUES.username==='ddd' && VALUES.password==='123'){
+                this.$store.dispatch('setToken', 12345)
+                setTimeout(() => {
+                    this.$router.push('/home')
+                }, 1000);
+            }
         },
     }
 }

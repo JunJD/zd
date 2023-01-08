@@ -15,6 +15,7 @@ const routes = [
       title: ''
     }
   },
+  // tabbar
   {
     name: 'user',
     component: () => import('./view/user'),
@@ -48,6 +49,15 @@ const routes = [
     }
   },
   {
+    name: 'home',
+    component: () => import('./view/home'),
+    meta: {
+      title: '首页',
+      requireAuth: true 
+    }
+  },
+  // 功能页面
+  {
     name: 'calendarCenter/add',
     component: () => import('./view/calendarCenter/components/add.vue'),
     meta: {
@@ -55,13 +65,26 @@ const routes = [
     }
   },
   {
-    name: 'home',
-    component: () => import('./view/home'),
+    name: 'user/set',
+    component: () => import('./view/user/components/set.vue'),
     meta: {
-      title: '首页',
-      requireAuth: true 
+      requireAuth: true
     }
-  }
+  },
+  {
+    name: 'user/feedback',
+    component: () => import('./view/user/components/feedback.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    name: 'user/about',
+    component: () => import('./view/user/components/about.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
 ];
 
 // add route path
@@ -75,6 +98,7 @@ router.beforeEach((to, from, next) => {
   // 判断进入此页面是否token
   const requireAuth = to.meta && to.meta.requireAuth;
   if(requireAuth){
+    
     if(!Store.token){
       next({
         path: '/login', // 未登录则跳转至login页面    

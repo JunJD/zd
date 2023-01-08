@@ -166,7 +166,7 @@ body{
             &-content{
                 width: 6rem;
                 &-origin{
-                    color: rgb(244, 238, 238);
+                    color: rgb(194, 190, 190);
                 }
                 &-title{
                     padding: .2rem 0;

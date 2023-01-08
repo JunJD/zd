@@ -1,39 +1,40 @@
 <style lang="less" src="./footer_nav.less" scoped></style>
 <template>
   <div class="footer_nav">
-    <router-link to="/home">
-      <i class="icon i-zd-home"></i>
-      <span class="text">首页</span>
-    </router-link>
-    <router-link to="/serviceCentre">
-      <i class="icon i-zd-service"></i>
-      <span class="text">服务中心</span>
-    </router-link>
-    <router-link to="/calendarCenter">
-      <i class="icon i-zd-schedule"></i>
-      <span class="text">日程中心</span>
-    </router-link>
-      <router-link to="/messageCenter">
-        <Badge :content="unread">
-          <i class="icon i-zd-message"></i>
-        </Badge>
-        <span class="text">消息</span>
-      </router-link>
-    <router-link to="/user">
-      <i class="icon i-zd-my"></i>
-      <span class="text">我的</span>
-    </router-link>
+    <Tabbar v-model="active" route active-color="#1d58b6">
+      <TabbarItem 
+      v-for="tabbar in tabbars" 
+      :key="tabbar.value" 
+      replace
+      :to="tabbar.value"
+      :badge="tabbar.value==='/messageCenter'?unread:''"
+      >
+        <span>{{tabbar.name}}</span>
+        <template #icon>
+          <i :class="`icon ${tabbar.icon}`"></i>
+        </template>
+      </TabbarItem>
+    </Tabbar>
   </div>
 </template>
 
 <script>
-import { Badge } from 'vant';
+import { Tabbar, TabbarItem } from 'vant';
 
 export default {
   name: 'footerNav',
-  components: { Badge },
+  components: { Tabbar, TabbarItem },
   data () {
-    return { }
+    return {
+      active: 0,
+      tabbars:[
+        {icon:'i-zd-home',value:'/home',name:'首页'},
+        {icon:'i-zd-service',value:'/serviceCentre',name:'服务中心'},
+        {icon:'i-zd-schedule',value:'/calendarCenter',name:'日程中心'},
+        {icon:'i-zd-message',value:'/messageCenter',name:'消息'},
+        {icon:'i-zd-my',value:'/user',name:'我的'},
+      ]
+     }
   },
   computed:{
     unread() {

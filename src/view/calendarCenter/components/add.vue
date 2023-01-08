@@ -283,4 +283,10 @@
     // padding-bottom: 1.44rem ;
     z-index: 9999;
 }
+/deep/ .van-icon-arrow-left{
+    color: #333 !important;
+}
+/deep/ .van-nav-bar__text{
+    color: #333 !important;
+}
 </style>

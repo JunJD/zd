@@ -11,7 +11,7 @@
       </Badge>
       <main  class="main">
         <CellGroup>
-          <Cell @click="cellClick" v-for="cell,index in CellList" :icon="cell.icon" :key="`${index}${cell.name}`" :title="cell.name" is-link />
+          <Cell v-for="cell,index in CellList"  @click="()=>{cellClick(cell.name)}" :icon="cell.icon" :key="`${index}${cell.name}`" :title="cell.name" is-link />
         </CellGroup>
       </main>
       <!-- 底部的固定导航栏 -->
@@ -43,8 +43,27 @@
       footerNav
     },
     methods:{
-      cellClick(){
+      cellClick(name){
+        if(name === '设置'){
+          this.toSet()
+          return
+        }else if(name === '意见反馈'){
+          this.toFeedback()
+          return
+        } else if(name === '关于我们'){
+          this.toAbout()
+          return
+        }
         this.tentative()
+      },
+      toSet(){
+        this.$router.push('/user/set')
+      },
+      toFeedback(){
+        this.$router.push('/user/feedback')
+      },
+      toAbout(){
+        this.$router.push('/user/about')
       },
       tentative(){
           Dialog({ message: '暂未开发' });

@@ -21,7 +21,7 @@
 
         <div class="header-control">
           <div class="control-text">我的服务</div>
-            <div v-for="(item, index) in controlIcons" class="control-icon" :key="index">
+            <div v-for="(item, index) in displayHomeList" class="control-icon" :key="index">
               <svg v-if="!expansion" @click="handleControlClick(item.more)" class="icon" aria-hidden="true">
                 <use :xlink:href="`#${item.icon}`"></use>
               </svg>
@@ -30,12 +30,12 @@
         </div>
         <div class="header-control-expansion" v-if="expansion">
           <Grid :column-num="5" square :border="false">
-            <GridItem v-for="(item, index) in controlIcons" :key="index">
+            <GridItem v-for="(item, index) in displayHomeList" :key="index">
               <!-- <Badge> -->
                 <svg @click="handleControlClick(item.more)" class="icon control-expansion-icon" aria-hidden="true">
                   <use :xlink:href="`#${item.icon}`"></use>
                 </svg>
-                <p>{{ item.name }}</p>
+                <p class="tabs-name">{{ item.name }}</p>
               <!-- </Badge> -->
             </GridItem >
           </Grid>
@@ -71,11 +71,9 @@
   
   <script>
   import _allControlIcon from './_allControlIcon'
-  
   import footerNav from './../../components/common/footerNav/footer_nav.vue'
   import { Search, Sticky, Button, Grid, GridItem, Tabs, Tab, SwitchCell } from 'vant';
   import { Dialog } from 'vant';
-  import _controlIcon from './_controlIcon'
   export default {
     components: {
       footerNav,
@@ -103,9 +101,15 @@
       }, time)
     },
     computed: {
-      controlIcons(){
-        return [..._controlIcon, {icon: this.expansion?"icon-shouqi":"icon-gengduo1", more: true}]
-      }
+      displayHomeList(){
+          let arr = []
+          this.allControlIconlist.forEach(element => {
+            element.list.forEach(item=>{
+              arr.push({...item, parent:element.name })
+            })
+          });
+          return [...arr.filter(it=>it.state===1).slice(0,9),{icon: this.expansion?"icon-shouqi":"icon-gengduo1", more: true}]
+        }
     },
     methods: {
       finalIconlist(item){
@@ -208,13 +212,6 @@
         .tabs-icon{
           font-size: 1rem;
         };
-        .tabs-name{
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
-          overflow: hidden;
-          font-size: .3rem;
-        }
         .collection-control{
           width: 95%;
           border-radius: 10px;
@@ -227,7 +224,15 @@
         }
       }
     }
+    .tabs-name{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      font-size: .3rem;
+    }
   }
+  
   </style>
   <style scoped lang="less">
   // 重写vant的search组件样式

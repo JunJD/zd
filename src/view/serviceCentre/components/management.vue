@@ -147,6 +147,7 @@ export default {
 .main{
     &-upper{
         background-color: #fff;
+        margin-bottom: .3rem;
     }
     &-lower{
         background-color: #fff;

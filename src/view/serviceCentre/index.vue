@@ -26,7 +26,7 @@
                 <use :xlink:href="`#${item.icon}`"></use>
               </svg>
             </div >
-          <Button class="control-button" round color="red" size="small" plain>管理</Button>
+          <Button @click="toManagement" class="control-button" round color="red" size="small" plain>管理</Button>
         </div>
         <div class="header-control-expansion" v-if="expansion">
           <Grid :column-num="5" square :border="false">
@@ -109,10 +109,9 @@
     },
     methods: {
       finalIconlist(item){
-        // this.checked
         return this.allControlIconlist
-          // .filter
           .find(itm=>itm.name===item).list
+          .filter(item=>!this.checked || item.collect===1) // 仅显收藏功能
       },
       searchFocus(){
         Dialog({message: '我聚焦了'})
@@ -123,6 +122,9 @@
         }else{
           this.tentative()
         }
+      },
+      toManagement(){
+        this.$router.push('/serviceCentre/management')
       },
       tentative(){
         Dialog({ message: '暂未开发' });

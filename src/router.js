@@ -85,6 +85,13 @@ const routes = [
       requireAuth: true
     }
   },
+  {
+    name: 'serviceCentre/management',
+    component: () => import('./view/serviceCentre/components/management.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
 ];
 
 // add route path
